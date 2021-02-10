@@ -2,9 +2,9 @@
 
 ## Learning Goals
 
-1. Explain in general terms what the execution context is.
-2. Describe the difference between global- and function-scoped code.
-3. Understand how block scoping affects variables declared with `let` and `const`.
+- Explain in general terms what the execution context is.
+- Describe the difference between global- and function-scoped code.
+- Understand how block scoping affects variables declared with `let` and `const`.
 
 ## Introduction
 
