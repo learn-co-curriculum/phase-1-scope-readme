@@ -1,6 +1,6 @@
 # Scope
 
-## Objectives
+## Learning Goals
 
 1. Explain in general terms what the execution context is.
 2. Describe the difference between global- and function-scoped code.
@@ -47,8 +47,8 @@ references a variable or invokes a function declared in the same context.
 
 ![Execution context and scope](https://curriculum-content.s3.amazonaws.com/web-development/js/principles/scope-readme/execution_context_and_scope_1.png)
 
-Up to this point, almost all of the JavaScript code we've written has lived in
-the _global execution context_, the context that implicitly wraps all of the
+Up to this point, much of the JavaScript code we've written has lived in the
+_global execution context_, the context that implicitly wraps all of the
 JavaScript code in a project. Variables and functions declared in the global
 execution context — in the _global scope_ — are accessible everywhere in your
 JavaScript code:
@@ -110,8 +110,7 @@ The function body creates its own scope. It's like a separate channel on Slack
 
 ## Block scope
 
-A block statement also creates its own scope... kind of. As of ES2015,
-JavaScript has partial support for block scoping.
+A block statement also creates its own scope... kind of.
 
 Variables declared with `var` are **not** block-scoped:
 
