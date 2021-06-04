@@ -1,4 +1,4 @@
-# Scope
+# Introduction to Scope
 
 ## Learning Goals
 
