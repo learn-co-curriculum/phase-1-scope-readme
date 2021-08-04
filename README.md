@@ -14,9 +14,7 @@ available within our code.
 
 Scope is a ubiquitous concept in programming and one of the most misunderstood
 principles in JavaScript, frustrating even seasoned engineers. Not understanding
-how scope works will lead to pain. Just ask this guy:
-
-![](https://curriculum-content.s3.amazonaws.com/web-development/js/principles/scope-readme/telescope_fail.gif)
+how scope works will lead to pain.
 
 ## Let's talk about Slack, baby
 
@@ -55,7 +53,7 @@ JavaScript code:
 
 ```js
 // 'myFunc' is declared in the global scope and available everywhere in your code:
-function myFunc () {
+function myFunc() {
   return 42;
 }
 // => undefined
@@ -70,7 +68,7 @@ myVar;
 
 ![Execution context and scope](https://curriculum-content.s3.amazonaws.com/web-development/js/principles/scope-readme/execution_context_and_scope_2.png)
 
-***Top Tip***: If a variable or function is **not** declared inside a function
+**_Top Tip_**: If a variable or function is **not** declared inside a function
 or block, it's in the global execution context.
 
 ## Function scope
@@ -81,7 +79,7 @@ context with its own scope. Inside the function body, we can reference variables
 and functions declared in the function's scope:
 
 ```js
-function myFunc () {
+function myFunc() {
   const myVar = 42;
 
   return myVar * 2;
@@ -96,7 +94,7 @@ However, from outside the function, we can't reference anything declared inside
 of it:
 
 ```js
-function myFunc () {
+function myFunc() {
   const myVar = 42;
 }
 // => undefined
@@ -153,7 +151,7 @@ inevitable that at some point you're going to forget the `const` or `let` and
 accidentally do something like:
 
 ```js
-firstName = 'Ada';
+firstName = "Ada";
 ```
 
 Variables created without a `const`, `let`, or `var` keyword are **always
@@ -162,7 +160,7 @@ inside of a block, it's still available globally:
 
 ```js
 if (true) {
-  lastName = 'Lovelace';
+  lastName = "Lovelace";
 }
 
 lastName;
@@ -173,10 +171,10 @@ If you create one inside of a function — wait for it — it's still availabl
 globally:
 
 ```js
-function bankAccount () {
-  secretPassword = 'il0v3pupp135';
+function bankAccount() {
+  secretPassword = "il0v3pupp135";
 
-  return 'bankAccount() function invoked!';
+  return "bankAccount() function invoked!";
 }
 
 bankAccount();
@@ -204,10 +202,10 @@ So, to sum up our tricks for taming the scope monster:
 2. Keep in mind that every function creates its own scope, and any variables or
    functions you declare inside of the function will not be available outside of
    it.
-3. For Dijkstra's sake, ***always use `const` and `let` to declare variables***.
+3. For Dijkstra's sake, **_always use `const` and `let` to declare variables_**.
 
 ## Resources
 
 - MDN
-  + [Scope](https://developer.mozilla.org/en-US/docs/Glossary/scope)
-  + [Functions — Function scope](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#Function_scope)
+  - [Scope](https://developer.mozilla.org/en-US/docs/Glossary/scope)
+  - [Functions — Function scope](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#Function_scope)
