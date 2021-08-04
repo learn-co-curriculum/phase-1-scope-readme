@@ -141,8 +141,6 @@ This is yet another reason to **never use `var`**. As long as you stick to
 declaring variables with `const` and `let`, what happens in block stays in
 block.
 
-![Remember, what happens here stays here.](https://curriculum-content.s3.amazonaws.com/web-development/js/principles/scope-readme/what_happens_here_stays_here.gif)
-
 ## The global gotcha
 
 In a perfect world, you'd always remember to declare new variables with `const`
