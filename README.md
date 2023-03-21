@@ -2,208 +2,143 @@
 
 ## Learning Goals
 
-- Explain in general terms what the execution context is.
-- Describe the difference between global- and function-scoped code.
-- Understand how block scoping affects variables declared with `let` and `const`.
+- one
+- two
+- three
 
 ## Introduction
 
-_Scope_ is, in short, the concept of **where something is available**. In the
-case of JavaScript, it has to do with where declared variables and methods are
-available within our code.
+The more complex your code becomes, the more important it is to pay attention to
+scope. So, what exactly is it? _Scope_ is the concept of **where something is
+available**. In the case of JavaScript, it has to do with where variables and
+functions are accessible within our code.
 
-Scope is a ubiquitous concept in programming and one of the most misunderstood
-principles in JavaScript, frustrating even seasoned engineers. Not understanding
-how scope works will lead to pain.
+Scope is not something fully tangible, there is no specific syntax to it. As a
+result, it can be a difficult concept to grasp. However, scope affects
+everything you write. All code you have written thus far has used scope in some
+way, even without you knowing. Consequently, it is important that you understand
+what it is and how it impacts the code you write.
 
-## Let's talk about Slack, baby
+In this lesson, we will dissect what scope is and break it down into its three
+main levels in JavaScript:
 
-As the newest engineer at Flatbook, you have access to the company's Slack team.
-The Slack team is organized into channels, some of which are company-wide, such
-as the main `#general` channel, and some of which are used by individual teams
-for intra-team communication, such as `#education`, `#engineering`, and
-`#marketing`.
+1. Global scope
+1. Function scope
+1. Block scope
 
-Each channel forms its own _scope_, meaning that its messages are only visible
-to those with access to the channel. Within `#engineering`, you can interact
-with the other members of your team, referring and responding to messages that
-they send. However, you can't see any of the messages posted inside `#marketing`
-— that's a different scope that you don't have access to.
+## Scope
 
-The same exact principle of distinct scopes exists in JavaScript, and it has to
-do with where declared variables and functions are visible.
+One thing to understand before scope can begin to make sense is: **we are not
+always able to access variables or functions wherever we want**. For example, a
+variable defined within one function may not be directly accessible in a
+separate function. This is where scope comes in.
 
-## Execution contexts
+Scope determines if and where variables and functions are accessible by other
+parts of the code. It allows you to keep certain parts of your code separate
+from one another.
 
-Just as every message on Slack is sent in a channel, every piece of JavaScript
-code is run in an _execution context_. In a Slack channel, we have access to all
-of the messages sent in that channel; we can send a message that references any
-of the other messages posted in the same channel. Similarly, in a JavaScript
-execution context, we have access to all of the variables and functions declared
-in that context. Within an execution context, we can write an expression that
-references a variable or invokes a function declared in the same context.
-
-![Execution context and scope](https://curriculum-content.s3.amazonaws.com/web-development/js/principles/scope-readme/execution_context_and_scope_1.png)
-
-Up to this point, much of the JavaScript code we've written has lived in the
-_global execution context_, the context that implicitly wraps all of the
-JavaScript code in a project. Variables and functions declared in the global
-execution context — in the _global scope_ — are accessible everywhere in your
-JavaScript code:
+Take the following snippet as an example:
 
 ```js
-// 'myFunc' is declared in the global scope and available everywhere in your code:
-function myFunc() {
-  return 42;
-}
-// => undefined
+const parkingLot = true;
 
-// 'myVar' is able to reference and invoke 'myFunc' because both are declared in the same scope (the global execution context):
-const myVar = myFunc() * 2;
-// => undefined
-
-myVar;
-// => 84
-```
-
-![Execution context and scope](https://curriculum-content.s3.amazonaws.com/web-development/js/principles/scope-readme/execution_context_and_scope_2.png)
-
-**_Top Tip_**: If a variable or function is **not** declared inside a function
-or block, it's in the global execution context.
-
-## Function scope
-
-When we declare a new function and write some code in the function body, we're
-no longer in the global execution context. The function creates a new execution
-context with its own scope. Inside the function body, we can reference variables
-and functions declared in the function's scope:
-
-```js
-function myFunc() {
-  const myVar = 42;
-
-  return myVar * 2;
-}
-// => undefined
-
-myFunc();
-// => 84
-```
-
-However, from outside the function, we can't reference anything declared inside
-of it:
-
-```js
-function myFunc() {
-  const myVar = 42;
-}
-// => undefined
-
-myVar * 2;
-// Uncaught ReferenceError: myVar is not defined
-```
-
-The function body creates its own scope. It's like a separate channel on Slack
-— only the members of that channel can read the messages sent in it.
-
-## Block scope
-
-A block statement also creates its own scope... kind of.
-
-Variables declared with `var` are **not** block-scoped:
-
-```js
-if (true) {
-  var myVar = 42;
+function employee() {
+  const enterBuilding = true;
+  console.log(parkingLot, enterBuilding);
 }
 
-myVar;
-// => 42
+employee(); // => true true
+console.log(parkingLot); // => true
+console.log(enterBuilding); // => ReferenceError: enterBuilding is not defined
 ```
 
-However, variables declared with `const` and `let` **are** block-scoped:
+In this example, one variable (`parkingLot`) is defined _outside_ of the
+`employee` function, while the other (`enterBuilding`) is defined _inside_ the
+function.
+
+When logging both variables _inside_ the `employee` function, it is successful.
+The function has access to both of them.
+
+However, when trying to log both variables _outside_ the function, the
+`enterBuilding` variable throws an error. The code outside of the function does
+not have access to that inside variable. It only has access to the outside
+variable.
+
+This example demonstrates two of the three different levels of scope in
+JavaScript. After the next few sections, you should be able to come back to this
+example and determine which two.
+
+Let's cover those three scope levels now.
+
+## Global Scope
+
+Global scope is the **outermost scope**. Anything defined here is accessible
+everywhere else in your code. This makes it the simplest scope to utilize as it
+does not create any limitations on where you can access variables.
+
+Anything defined at the top level of a file is considered to be definied
+globally. In other words, anything defined _outside_ of curly braces `{}` are
+globally scoped.
+
+Let's take a look at some examples. Imagine the following is _all_ the code
+inside a file:
 
 ```js
-if (true) {
-  const myVar = 42;
+const accessibleAnywhere = true;
 
-  let myOtherVar = 9001;
+function globalFn() {
+  return true;
 }
 
-myVar;
-// Uncaught ReferenceError: myVar is not defined
-
-myOtherVar;
-// Uncaught ReferenceError: myOtherVar is not defined
+console.log(accessibleAnywhere); // => true
+globalFn(); // => true
 ```
 
-This is yet another reason to **never use `var`**. As long as you stick to
-declaring variables with `const` and `let`, what happens in block stays in
-block.
+Both the variable and function are defined at the top level of the file, making
+them both available in the global scope. If we were to continue adding code to
+this file, we could access both of them anywhere we want.
 
-## The global gotcha
+In general, it's best practice to make variables and functions available only
+where they're needed — and nowhere else. Making a variable available in places
+that shouldn't have access to it can only lead to bad things and make your
+debugging process more complex. The more pieces of code that can access a given
+variable, the more places you have to check for bugs if/when that variable
+contains an unexpected value.
 
-In a perfect world, you'd always remember to declare new variables with `const`
-and `let`, and you'd never run into any weird scoping issues. However, it's
-inevitable that at some point you're going to forget the `const` or `let` and
-accidentally do something like:
+This is where the other levels of scope comes in handy.
 
-```js
-firstName = "Ada";
-```
+## Function Scope
 
-Variables created without a `const`, `let`, or `var` keyword are **always
-globally-scoped**, regardless of where they sit in your code. If you create one
-inside of a block, it's still available globally:
+<!-- See if you can determine which variables are globally scoped:
 
 ```js
-if (true) {
-  lastName = "Lovelace";
+const name = "Kentaro";
+
+function greeting(name, type) {
+  const hi = "Hello there, ";
+  const bye = "See you next time, ";
+
+  if (type === "hi") {
+    console.log(hi + name);
+  } else {
+    console.log(bye + name);
+  }
 }
 
-lastName;
-// => "Lovelace"
+greeting(name, "bye");
 ```
 
-If you create one inside of a function — wait for it — it's still available
-globally:
+<details><summary><b>Which variables from the above snippet are in the global scope?</b></summary>
+<p>
+  <ul>
+    <li>name</li>
+    <li>greeting</li>
+  </ul>
+</p>
+</details>
 
-```js
-function bankAccount() {
-  secretPassword = "il0v3pupp135";
-
-  return "bankAccount() function invoked!";
-}
-
-bankAccount();
-// => "bankAccount() function invoked!"
-
-secretPassword;
-// => "il0v3pupp135"
-```
-
-Oh no; our super secret password has leaked into the global scope and is
-available everywhere! Declaring global variables and functions should only be
-used as a last resort if you absolutely need access to something **everywhere**
-in your program. In general, it's best practice to make variables and functions
-available only where they're needed — and nowhere else. Making a variable
-available in places that shouldn't have access to it can only lead to bad things
-and make your debugging process more complex. The more pieces of code that can
-access a given variable, the more places you have to check for bugs if/when that
-variable contains an unexpected value.
-
-## Conclusion
-
-So, to sum up our tricks for taming the scope monster:
-
-1. Always use `const` and `let` to declare variables.
-2. Keep in mind that every function creates its own scope, and any variables or
-   functions you declare inside of the function will not be available outside of
-   it.
-3. For Dijkstra's sake, **_always use `const` and `let` to declare variables_**.
-
-## Resources
-
-- MDN
-  - [Scope](https://developer.mozilla.org/en-US/docs/Glossary/scope)
-  - [Functions — Function scope](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#Function_scope)
+<details><summary><b>Bonus Question: What would the output be of the above example?</b></summary>
+<p>
+  See you next time, Kentaro
+</p>
+</details> -->
