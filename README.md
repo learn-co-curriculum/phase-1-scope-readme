@@ -299,38 +299,91 @@ Again, it is best practice to always declare variables with either `let` or
 
 ## Practice Identifying Scope
 
-## Conclusion
+We've learned a lot! I'm sure you can see now why scope is a tricky beast that
+can trip up even seasoned programmers. If you're not comfortable with these
+concepts yet, that is OK. It takes time and practice. Let's get some of that in
+now!
 
-<!-- See if you can determine which variables are globally scoped:
+Use the following example to answer the questions below. Take your time reading
+through the code to understand what's happening:
 
 ```js
-const name = "Kentaro";
+let count = 0;
 
-function greeting(name, type) {
-  const hi = "Hello there, ";
-  const bye = "See you next time, ";
-
-  if (type === "hi") {
-    console.log(hi + name);
-  } else {
-    console.log(bye + name);
-  }
+function increaseByNum(plusNum) {
+  const increment = plusNum;
+  count = count + increment;
 }
 
-greeting(name, "bye");
+function decreaseByNum(decrNum) {
+  const decrement = decrNum;
+  count = count - decrement;
+}
+
+for (let i = 0; i < 10; i++) {
+  const counterText = "The count is currently: " + count;
+
+  if (i < 5) {
+    increaseByNum(2);
+  } else {
+    decreaseByNum(2);
+  }
+
+  console.log(counterText);
+}
+
+console.log(count);
 ```
 
-<details><summary><b>Which variables from the above snippet are in the global scope?</b></summary>
-<p>
+<details><summary><b>Which variables are globally scoped?</b></summary><p>
   <ul>
-    <li>name</li>
-    <li>greeting</li>
+    <li>count</li>
+    <li>The increaseByNum function</li>
+    <li>The decreaseByNum function</li>
   </ul>
-</p>
-</details>
+</p></details>
 
-<details><summary><b>Bonus Question: What would the output be of the above example?</b></summary>
-<p>
-  See you next time, Kentaro
-</p>
-</details> -->
+<details><summary><b>Which variables are functionally scoped?</b></summary><p>
+  <ul>
+    <li>increment is functionally scoped to increaseByNum</li>
+    <li>decrement is functionally scoped to decreaseByNum</li>
+  </ul>
+</p></details>
+
+<details><summary><b>Which variables are block scoped?</b></summary><p>
+  <ul>
+    <li>counterText is block scoped to the for loop</li>
+  </ul>
+</p></details>
+
+<details><summary><b>Bonus (code comprehension): What is the final count after the loop finishes?</b></summary><p>
+  <ul>
+    <li>It goes back down to 0</li>
+  </ul>
+</p></details>
+
+## Conclusion
+
+Let's summarize the three levels of scope we learned so you can refer back to
+this as a cheatsheet.
+
+- **Global Scope**
+  - The outermost scope.
+  - Anything defined at the top level of a file, outside of blocks and
+    functions.
+  - Accessible everywhere else in the code.
+- **Functional Scope**
+  - A nested scope, specifically the scope within a single function.
+  - Anything defined inside the body of a function.
+  - Cannot be accessed anywhere outside of the function.
+- **Block Scope**
+  - A nested scope, specifically the scope within asingle block, denoted by
+    curly braces `{}`.
+  - Anything defined inside the body of a block, such as `if` statements and
+    `for` loops.
+  - Cannot be accessed anywhere outside of the block.
+
+As we've seen, scope is an important concept to keep in mind as you program.
+Though difficult to grasp sometimes, it helps with writing clean code by keeping
+variables only within the scope they are needed. Don't worry if it seems like a
+nebulous concept right now, that is OK. Truly understanding will come with time.
