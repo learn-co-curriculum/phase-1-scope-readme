@@ -191,10 +191,10 @@ console.log(favoriteFruit); // => ReferenceError: favoriteFruit is not defined
 ```
 
 Even though the `if/else` blocks are part of the same conditional, each
-statement has its own block scope. Both the `if` and `else` statement have their
-own sets of curly braces `{}`, and therefore have separate scopes. Anything
-defined within the `if` statement, such as `favoriteFruit`, does not exist
-outside of that block.
+statement has its own block. Both the `if` and `else` statement have their own
+sets of curly braces `{}`, and therefore have separate scopes. Anything defined
+within the `if` statement, such as `favoriteFruit`, does not exist outside of
+that block.
 
 ## Gotcha's to Be Aware Of
 
@@ -207,8 +207,95 @@ However, you may encounter legacy code that uses `var` or doesn't use a keyword
 at all. In such cases, those variables do not follow the scope rules we just
 learned about.
 
-If you declare a variable with **`var`**, that variable does not get block
-scoped.
+## The `var` Gotcha
+
+If you declare a variable with **`var`**, that variable **does not get block
+scoped**. Let's demonstrate this with a modified version of our `if` statement
+example from before:
+
+```js
+const animal = "capybara";
+
+if (animal === "capybara") {
+  var favoriteFruit = "yuzu";
+  console.log("A capybara's favorite bath fruit is: ", favoriteFruit); // => A capybara's favorite bath fruit is: yuzu
+}
+
+console.log(favoriteFruit); // => yuzu
+```
+
+Because it was defined with `var`, we are able to access `favoriteFruit` outside
+of the `if` statement it was defined in.
+
+However, `var` does **get function scoped**. For example, let's wrap our `if`
+statement inside a function:
+
+```js
+const animal = "capybara";
+
+function logAnimalFruit() {
+  if (animal === "capybara") {
+    var favoriteFruit = "yuzu";
+    console.log("A capybara's favorite bath fruit is: ", favoriteFruit); // => A capybara's favorite bath fruit is: yuzu
+  }
+  return favoriteFruit;
+}
+
+logAnimalFruit(); // => yuzu
+console.log(favoriteFruit); // => ReferenceError: favoriteFruit is not defined
+```
+
+As we saw before, `favoriteFruit` does not get scoped to the `if` statement's
+block. So, when we try to access the variable inside the `logAnimalFruit`
+function that it's nested within, it is available. However, when we try to
+access it _outside_ of the function like we did before, we are now unable to
+access it.
+
+In sum, `var` gets scoped to its nearest parent function. If it's not declared
+within a function at all, it gets scoped globally.
+
+Confusing, isn't it? This is all the more reason to **never use `var`** when
+declaring variables. As long as you stick to declaring variables with `const`
+and `let`, what happens in block stays in block.
+
+## The Missing Keyword Gotcha
+
+If you declare a variable with no keyword whatsoever, that variable **is always
+globally scoped**. Regardless of where you define this variable, it will always
+be accessible anywhere after its declaration.
+
+For example, if we declare a variable with no keyword inside a function, it is
+still available anywhere:
+
+```js
+function bankAccount() {
+  username = "corgiluvr";
+  secretPassword = "il0v3pupp!35";
+  money = 1000000000;
+  console.log("Account created for: " + username); // => "Account created for: corgiluvr"
+}
+
+bankAccount();
+console.log(secretPassword); // => "il0v3pupp!35"
+
+if ((secretPassword = "il0v3pupp!35")) {
+  const withdraw = 1000000000;
+  money = money - withdraw;
+  console.log("Withdrew amount: " + withdraw); // => Withdrew amount: 1000000000
+  console.log("Remaining balance: " + money); // => Remaining balance: 0
+}
+```
+
+Oh no; our super secret password has leaked into the global scope and is
+available everywhere! A bad actor exploited that and created a simple `if`
+statement with our password to drain all our money - which was also available
+everywhere.
+
+Declaring global variables and functions should only be used as a last resort if
+you absolutely need access to something **everywhere** in your program.
+
+Again, it is best practice to always declare variables with either `let` or
+`const`. Doing so will avoid troubling issues like these!
 
 ## Practice Identifying Scope
 
