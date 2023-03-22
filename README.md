@@ -387,3 +387,9 @@ As we've seen, scope is an important concept to keep in mind as you program.
 Though difficult to grasp sometimes, it helps with writing clean code by keeping
 variables only within the scope they are needed. Don't worry if it seems like a
 nebulous concept right now, that is OK. Truly understanding will come with time.
+
+## Resources
+
+- MDN
+  - [Scope](https://developer.mozilla.org/en-US/docs/Glossary/scope)
+  - [Functions — Function scope](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#Function_scope)
