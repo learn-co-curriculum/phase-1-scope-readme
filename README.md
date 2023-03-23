@@ -2,9 +2,9 @@
 
 ## Learning Goals
 
-- one
-- two
-- three
+- Define scope as a programming concept.
+- Describe the three levels of scope in JavaScript.
+- Examine the exceptions to the scope rules.
 
 ## Introduction
 
